@@ -18,7 +18,7 @@ namespace MauiAppMinhasCompras.Helpers
         //Nao entendi pq ele escolheu o query ao inves do update
         public Task<List<Produto>> Update(Produto p) {
             string sql = "UPDATE Produto SET Descricao=?, Quantidade=?, Preco=? WHERE ID=?";
-            return _conn.QueryAsync<Produto>(sql, p.Descricao, p.Quantidade, p.preco, p.Id);
+            return _conn.QueryAsync<Produto>(sql, p.Descricao, p.Quantidade, p.Preco, p.Id);
         }
 
         public Task<int> Delete(int id) {
