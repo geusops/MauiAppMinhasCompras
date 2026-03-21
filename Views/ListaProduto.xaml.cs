@@ -21,6 +21,7 @@ public partial class ListaProduto : ContentPage
 
         try
         {
+            lista.Clear();
             base.OnAppearing();
             //instanciando uma lista de produtos e chamando de tmp e populando com a conexao com bd no metodo getall (que criamos na model)
             List<Produto> tmp = await App.Db.GetAll();
