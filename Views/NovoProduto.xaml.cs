@@ -13,6 +13,22 @@ public partial class NovoProduto : ContentPage
     {
         try
         {
+            if (string.IsNullOrWhiteSpace(txt_descricao.Text))
+            {
+                await DisplayAlert("Ops", "A descrição não pode estar vazia", "OK");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(txt_quantidade.Text))
+            {
+                await DisplayAlert("Ops","A quantidade deve ser ao menos 1","OK");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(txt_preco.Text))
+            {
+                await DisplayAlert("Ops", "O preço deve ser maior que 0", "OK");
+                return;
+            }
+
             Produto p = new Produto
             {
                 Descricao = txt_descricao.Text,

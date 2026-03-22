@@ -5,7 +5,8 @@ namespace MauiAppMinhasCompras.Models
     public class Produto
     {
         String _descricao;
-        double _quantidade, _preco;
+        double _quantidade = 1;
+        double _preco = 1;
 
 
         [PrimaryKey, AutoIncrement]
@@ -27,7 +28,7 @@ namespace MauiAppMinhasCompras.Models
         {
             get => _quantidade;
             set
-            {
+            { 
                 if (value >= 1)
                 {
                     _quantidade = value;
