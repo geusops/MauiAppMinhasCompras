@@ -4,7 +4,7 @@ namespace MauiAppMinhasCompras.Models
 {
     public class Produto
     {
-        String _descricao;
+        String _descricao,_categoria;
         double _quantidade = 1;
         double _preco = 1;
 
@@ -23,6 +23,19 @@ namespace MauiAppMinhasCompras.Models
                 _descricao = value;
 
             }
+        }
+        public string Categoria {
+            get => _categoria;
+            set
+            {
+                if (value == null)
+                {
+                    throw new Exception("Favor, preencha a descrição");
+                }
+                _categoria = value;
+
+            }
+
         }
         public double Quantidade
         {

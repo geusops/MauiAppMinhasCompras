@@ -18,9 +18,14 @@ public partial class NovoProduto : ContentPage
                 await DisplayAlert("Ops", "A descrição não pode estar vazia", "OK");
                 return;
             }
+            if (txt_categoria.SelectedItem == null || string.IsNullOrWhiteSpace(txt_categoria.SelectedItem?.ToString()))
+            {
+                await DisplayAlert("Ops","Você deve escolher uma categoria","OK");
+                return;
+            }
             if (string.IsNullOrWhiteSpace(txt_quantidade.Text))
             {
-                await DisplayAlert("Ops","A quantidade deve ser ao menos 1","OK");
+                await DisplayAlert("Ops", "A quantidade deve ser ao menos 1", "OK");
                 return;
             }
             if (string.IsNullOrWhiteSpace(txt_preco.Text))
@@ -32,6 +37,7 @@ public partial class NovoProduto : ContentPage
             Produto p = new Produto
             {
                 Descricao = txt_descricao.Text,
+                Categoria = txt_categoria.SelectedItem?.ToString(),
                 Quantidade = Convert.ToDouble(txt_quantidade.Text),
                 Preco = Convert.ToDouble(txt_preco.Text)
             };

@@ -51,6 +51,10 @@ public partial class ListaProduto : ContentPage
     private async void txt_search_TextChanged(object sender, TextChangedEventArgs e)
     {
         string q = e.NewTextValue;
+
+        //"bolotinha" de pesquisa
+        lst_produtos.IsRefreshing = true;
+
         //limpando o objeto lista antes de fazer a busca
         lista.Clear();
 
@@ -63,6 +67,10 @@ public partial class ListaProduto : ContentPage
         catch (Exception ex)
         {
             await DisplayAlert("Ops", ex.Message, "OK");
+        }
+        finally
+        {
+            lst_produtos.IsRefreshing = false;
         }
     }
 
@@ -120,6 +128,27 @@ public partial class ListaProduto : ContentPage
         catch (Exception ex)
         {
             DisplayAlert("Ops", ex.Message, "OK");
+        }
+    }
+
+    private async void lst_produtos_Refreshing(object sender, EventArgs e)
+    {
+        try
+        {
+            //limpa a tela para nao duplicar.
+            lista.Clear();
+            base.OnAppearing();
+            //instanciando uma lista de produtos e chamando de tmp e populando com a conexao com bd no metodo getall (que criamos na model)
+            List<Produto> tmp = await App.Db.GetAll();
+            //populando as 'table roles' com o resultado do getall atravez do foreach
+            tmp.ForEach(i => lista.Add(i));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ops", ex.Message, "OK");
+        }
+        finally {
+            lst_produtos.IsRefreshing = false;
         }
     }
 }
