@@ -22,12 +22,13 @@ public partial class ListaProduto : ContentPage
         try
         {
             //limpa a tela para nao duplicar.
-            lista.Clear();
+            //lista.Clear();
             base.OnAppearing();
             //instanciando uma lista de produtos e chamando de tmp e populando com a conexao com bd no metodo getall (que criamos na model)
-            List<Produto> tmp = await App.Db.GetAll();
+            //List<Produto> tmp = await App.Db.GetAll();
             //populando as 'table roles' com o resultado do getall atravez do foreach
-            tmp.ForEach(i => lista.Add(i));
+            //tmp.ForEach(i => lista.Add(i));
+            await filtraCompras();
         }
         catch (Exception ex)
         {
@@ -115,7 +116,7 @@ public partial class ListaProduto : ContentPage
         }
 
     }
-
+    
     private void lst_produtos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         try {
@@ -150,5 +151,48 @@ public partial class ListaProduto : ContentPage
         finally {
             lst_produtos.IsRefreshing = false;
         }
+    }
+
+    private async Task filtraCompras()
+    {
+        try{
+            string categoria = txt_filtro.SelectedItem?.ToString();
+
+            // limpa lista atual
+            lista.Clear();
+
+            List<Produto> produtos = await App.Db.GetAll();
+
+            List<Produto> filtrados;
+
+            if (categoria == "Todos" || string.IsNullOrEmpty(categoria))
+            {
+                filtrados = produtos;
+            }
+            else
+            {
+                filtrados = produtos
+                    .Where(p => p.Categoria == categoria)
+                    .ToList();
+            }
+
+            // popula a lista (isso atualiza a UI)
+            filtrados.ForEach(i => lista.Add(i));
+
+            // 💰 calcula o total
+            double total = filtrados.Sum(p => p.Total);
+
+            // atualiza label
+            total_por_categoria.Text = $"R$ {total:F2}";
+        }
+    catch (Exception ex)
+    {
+            await DisplayAlert("Erro", ex.Message, "OK");
+        }
+    }
+
+    private async void txt_filtro_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        await filtraCompras();
     }
 }
